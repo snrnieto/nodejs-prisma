@@ -5,8 +5,8 @@ const prisma = new PrismaClient();
 async function main() {
   // const newUser = await prisma.user.create({
   //   data: {
-  //     name: "Juan",
-  //     email: "juan@gmail.com",
+  //     name: "Pedro",
+  //     email: "pedro@gmail.com",
   //   },
   // });
   // console.log(newUser);
@@ -29,6 +29,21 @@ async function main() {
   });
 
   console.log(user);
+
+  try {
+    const userDelete = await prisma.user.delete({
+      where: {
+        id: 1,
+      },
+    });
+    console.log(userDelete);
+  } catch (error) {
+    console.log(error.meta.cause);
+    console.log(error.code);
+    if (error.code === "P2025") {
+      console.log("User not found");
+    }
+  }
 }
 
 main();
