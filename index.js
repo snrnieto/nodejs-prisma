@@ -9,7 +9,8 @@ async function main() {
   // await deleteUser();
   // await updateUser();
   // await upsertUser();
-  await createUserWithPosts();
+  // await createUserWithPosts();
+  await getUserAndPosts();
 }
 
 async function getUsers() {
@@ -141,5 +142,30 @@ async function createUserWithPosts() {
 
   const posts = await prisma.post.findMany();
   console.log(posts);
+}
+
+async function getUserAndPosts() {
+  // get users that have posts
+  const users = await prisma.user.findMany({
+    where: {
+      posts: {
+        some: {}, // This checks for the existence of at least one post
+        // none: {}, // This checks for the absence of a post
+      },
+    },
+    include: {
+      posts: true,
+    },
+  });
+
+  users.forEach((user) => {
+    console.log("---------------");
+    console.log(`User: ${user.name}`);
+    console.log(`Email: ${user.email}`);
+
+    user.posts.forEach((post, i) => {
+      console.log(`${i}. ${post.title} - ${post.content}`);
+    });
+  });
 }
 main();
