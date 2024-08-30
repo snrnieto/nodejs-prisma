@@ -6,3 +6,5 @@ npx prisma init --datasource sqlite
 npx prisma migrate dev // Sincroniza los modelos en la base de datos
 
 npx prisma migrate dev --name post-user-relation
+
+npx prisma studio
