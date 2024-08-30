@@ -9,6 +9,7 @@ async function main() {
   // await deleteUser();
   // await updateUser();
   // await upsertUser();
+  await createUserWithPosts();
 }
 
 async function getUsers() {
@@ -99,5 +100,46 @@ async function upsertUser() {
     },
   });
   console.log({ upsertedUser });
+}
+
+async function createUserWithPosts() {
+  // const newUser = await prisma.user.create({
+  //   data: {
+  //     name: "marcos",
+  //     email: "marcos@gmail.com",
+  //   },
+  // });
+
+  // console.log(newUser);
+  // const newPost = await prisma.post.create({
+  //   data: {
+  //     title: "My first post",
+  //     content: "This is my first post",
+  //     // authorId: newUser.id,
+  //     author: {
+  //       connect: {
+  //         id: newUser.id,
+  //       },
+  //     },
+  //   },
+  // });
+  // console.log(newPost);
+
+  const newUser = await prisma.user.create({
+    data: {
+      name: "Cameron",
+      email: "cameron@gmial.com",
+      posts: {
+        create: {
+          title: "Tutorial de prisma",
+          content: "Para hacer este tutorial...",
+        },
+      },
+    },
+  });
+  console.log(newUser);
+
+  const posts = await prisma.post.findMany();
+  console.log(posts);
 }
 main();
