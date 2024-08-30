@@ -8,6 +8,7 @@ async function main() {
   // const user = await getUser();
   // await deleteUser();
   // await updateUser();
+  // await upsertUser();
 }
 
 async function getUsers() {
@@ -82,5 +83,21 @@ async function updateUser() {
     },
   });
   console.log({ result });
+}
+// Si se cumple el where se actualiza, si no se crea
+async function upsertUser() {
+  const upsertedUser = await prisma.user.upsert({
+    where: {
+      email: "john@gmail.com",
+    },
+    create: {
+      name: "John",
+      email: "john@gmail.com",
+    },
+    update: {
+      lastname: "Carter",
+    },
+  });
+  console.log({ upsertedUser });
 }
 main();
