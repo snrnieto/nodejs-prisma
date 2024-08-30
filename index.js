@@ -3,17 +3,30 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // const newUser = await prisma.user.create({
-  //   data: {
-  //     name: "Pedro",
-  //     email: "pedro@gmail.com",
-  //   },
-  // });
-  // console.log(newUser);
+  await getUsers();
+  // const createdUser = await createUser();
+  // const user = await getUser();
+  // await deleteUser();
+  // await updateUser();
+}
 
+async function getUsers() {
   const users = await prisma.user.findMany();
   console.log(users);
+}
+async function createUser() {
+  const newUser = await prisma.user.create({
+    data: {
+      name: "Joseph",
+      email: "joseph@gmail.com",
+    },
+  });
 
+  console.log(newUser);
+  return newUser;
+}
+
+async function getUser() {
   const user = await prisma.user.findFirst({
     where: {
       // id: 2,
@@ -27,9 +40,11 @@ async function main() {
       // ],
     },
   });
+  console.log({ user });
+  return user;
+}
 
-  console.log(user);
-
+async function deleteUser() {
   try {
     const userDelete = await prisma.user.delete({
       where: {
@@ -46,4 +61,26 @@ async function main() {
   }
 }
 
+async function updateUser() {
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: 2,
+    },
+    data: {
+      lastname: "Perez",
+    },
+  });
+
+  console.log({ updatedUser });
+
+  const result = await prisma.user.updateMany({
+    where: {
+      lastname: null,
+    },
+    data: {
+      lastname: "Lastname",
+    },
+  });
+  console.log({ result });
+}
 main();
