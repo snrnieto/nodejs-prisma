@@ -10,7 +10,7 @@ async function main() {
   // await updateUser();
   // await upsertUser();
   // await createUserWithPosts();
-  await getUserAndPosts();
+  // await getUserAndPosts();
 }
 
 async function getUsers() {
